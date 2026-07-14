@@ -516,11 +516,6 @@ select {
         </div>
 
         <div class="field">
-          <label data-i18n="account_history">账号历史</label>
-          <select id="loginHistory"></select>
-        </div>
-
-        <div class="field">
           <label data-i18n="password">密码</label>
           <div class="input-wrap">
             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -885,7 +880,6 @@ if (document.readyState === 'loading') {
 
   const accountEl = $('account');
   const pwdEl = $('password');
-  const historyEl = $('loginHistory');
   const savePwdEl = $('savePassword');
   const toggleBtn = $('togglePwd');
 
@@ -913,30 +907,6 @@ if (document.readyState === 'loading') {
     pwdEl.value = savedPwd;
     savePwdEl.checked = true;
   }
-
-  // 账号历史下拉
-  function renderHistory() {
-    const hist = getHistory('login_history');
-    historyEl.innerHTML = '';
-    if (!hist.length) {
-      const opt = document.createElement('option');
-      opt.value = '';
-      opt.textContent = t('history_empty');
-      opt.disabled = true;
-      historyEl.appendChild(opt);
-      return;
-    }
-    hist.forEach((v) => {
-      const opt = document.createElement('option');
-      opt.value = v;
-      opt.textContent = v;
-      historyEl.appendChild(opt);
-    });
-  }
-  renderHistory();
-  historyEl.addEventListener('change', () => {
-    if (historyEl.value) accountEl.value = historyEl.value;
-  });
 
   // 显示/隐藏密码（SVG 切换）
   toggleBtn.addEventListener('click', () => {
