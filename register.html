@@ -1,557 +1,1012 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>创建账号 Register</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" crossorigin href="./assets/styles-DhdVldZh.css">
-</head>
-<body data-lang="zh">
-    <div class="page-wrapper">
-        <div class="login-card">
-            <!-- 顶部�?-->
-            <div class="hero-banner hero-banner--compact">
-                <div class="hero-bg-shapes">
-                    <div class="shape shape-1"></div>
-                    <div class="shape shape-2"></div>
-                    <div class="shape shape-3"></div>
-                </div>
-                <div class="hero-content hero-content--row">
-                    <div class="hero-greeting">
-                        <h1 class="hero-title hero-title--sm" data-i18n="reg_title">创建账号</h1>
-                        <p class="hero-desc hero-desc--sm" data-i18n="reg_subtitle">填写以下信息注册新账�?/p>
-                    </div>
-                    <div class="hero-actions">
-                        <div class="lang-switch lang-switch--inline" id="langSwitch">
-                            <button type="button" class="lang-opt active" data-lang="zh">中文</button>
-                            <button type="button" class="lang-opt" data-lang="en">English</button>
-                        </div>
-                        <button class="hero-logout" type="button" id="backBtn" title="返回">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="19" y1="12" x2="5" y2="12"></line>
-                                <polyline points="12 19 5 12 12 5"></polyline>
-                            </svg>
-                            <span data-i18n="back">返回</span>
-                        </button>
-                    </div>
-                </div>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="reg_title">创建账号</title>
+    <style>
+:root {
+  --bg: #eef2f7;
+  --card-bg: #ffffff;
+  --header-bg: #0d1f38;
+  --header-bg-2: #163356;
+  --accent: #2d8cf0;
+  --accent-hover: #1a6fc4;
+  --text-dark: #1a1a2e;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --input-bg: #f3f6f9;
+  --border: #e5e7eb;
+  --danger: #ef4444;
+  --radius: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--text-dark);
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(13, 31, 56, 0.15);
+  overflow: hidden;
+}
+
+.card.wide {
+  max-width: 560px;
+}
+
+/* ---------- 头部 ---------- */
+.card-header {
+  background: linear-gradient(135deg, var(--header-bg) 0%, var(--header-bg-2) 100%);
+  color: #fff;
+  padding: 28px;
+  position: relative;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.header-titles {
+  flex: 1;
+}
+
+.header-titles h1 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.header-titles p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.lang-switch {
+  display: flex;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.lang-opt {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lang-opt.active {
+  background: #fff;
+  color: var(--header-bg);
+  font-weight: 500;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.back-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.header-btn {
+  margin-top: 16px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.header-btn:hover {
+  background: var(--accent-hover);
+}
+
+/* ---------- 主体 ---------- */
+.card-body {
+  padding: 28px;
+}
+
+.body-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.body-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field > label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-icon,
+.input-arrow,
+.toggle-pwd {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.input-icon {
+  left: 14px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.input-arrow {
+  right: 14px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.toggle-pwd {
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-icon {
+  width: 20px;
+  height: 20px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+select {
+  width: 100%;
+  height: 48px;
+  background: var(--input-bg);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0 14px 0 44px;
+  font-size: 14px;
+  color: var(--text-dark);
+  outline: none;
+  transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  background: #fff;
+}
+
+select {
+  appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.input-with-arrow {
+  padding-right: 40px;
+}
+
+.input-with-toggle {
+  padding-right: 44px;
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.link {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  flex: 1;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.btn-ghost:hover {
+  background: rgba(45, 140, 240, 0.06);
+}
+
+.btn-large {
+  height: 56px;
+  font-size: 16px;
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 6px;
+  display: none;
+}
+
+.field-error.show {
+  display: block;
+}
+
+.footer-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 20px;
+  line-height: 1.5;
+}
+
+/* ---------- 搜索页 ---------- */
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.type-select {
+  width: 150px;
+  flex-shrink: 0;
+  padding-left: 14px;
+}
+
+.search-input-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding-left: 40px;
+}
+
+.search-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--accent), #5cadff);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(45, 140, 240, 0.35);
+  transition: 0.2s;
+  flex-shrink: 0;
+}
+
+.search-circle:hover {
+  transform: scale(1.05);
+}
+
+.search-circle svg {
+  width: 22px;
+  height: 22px;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.create-section {
+  margin-top: 8px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 480px) {
+  .card {
+    max-width: 100%;
+  }
+  .card-header {
+    padding: 22px 20px;
+  }
+  .card-body {
+    padding: 22px 20px;
+  }
+  .header-titles h1 {
+    font-size: 18px;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+  .lang-opt {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  .back-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  .search-row {
+    flex-wrap: wrap;
+  }
+  .type-select {
+    width: 100%;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="card-header">
+        <div class="header-top">
+          <div class="header-titles">
+            <h1 data-i18n="register_header_title">创建账号</h1>
+            <p data-i18n="register_header_subtitle">填写以下信息注册新账号</p>
+          </div>
+          <div class="header-actions">
+            <div class="lang-switch" id="langSwitch">
+              <button class="lang-opt" data-lang="zh" data-i18n="lang_zh">中文</button>
+              <button class="lang-opt" data-lang="en" data-i18n="lang_en">English</button>
             </div>
+            <button class="back-btn" id="backBtn">
+              <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+              <span data-i18n="back">返回</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-            <!-- 注册表单 -->
-            <form class="login-form" id="registerForm" autocomplete="off">
-                <div class="form-header">
-                    <h2 class="form-title" data-i18n="reg_form_title">注册新账�?/h2>
-                    <p class="form-subtitle" data-i18n="reg_form_subtitle">账号信息将保存在本设�?/p>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="regAccount" data-i18n="reg_label_account">账号</label>
-                    <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <input
-                            type="text"
-                            id="regAccount"
-                            name="account"
-                            class="form-input"
-                            placeholder="请输入账号（至少 3 个字符）"
-                            data-i18n-ph="ph_reg_account"
-                            autocomplete="off"
-                        >
-                    </div>
-                    <span class="field-error" id="errAccount"></span>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="regEmail" data-i18n="reg_label_email">邮箱</label>
-                    <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <input
-                            type="email"
-                            id="regEmail"
-                            name="email"
-                            class="form-input"
-                            placeholder="请输入邮�?
-                            data-i18n-ph="ph_reg_email"
-                            autocomplete="off"
-                        >
-                    </div>
-                    <span class="field-error" id="errEmail"></span>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="regPassword" data-i18n="reg_label_password">密码</label>
-                    <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        <input
-                            type="password"
-                            id="regPassword"
-                            name="password"
-                            class="form-input"
-                            placeholder="请输入密码（至少 6 位）"
-                            data-i18n-ph="ph_reg_password"
-                        >
-                        <button type="button" class="toggle-password" id="togglePassword" aria-label="显示密码">
-                            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                            <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                <line x1="1" y1="1" x2="23" y2="23"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <span class="field-error" id="errPassword"></span>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="regConfirm" data-i18n="reg_label_confirm">确认密码</label>
-                    <div class="input-wrapper">
-                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                        <input
-                            type="password"
-                            id="regConfirm"
-                            name="confirm"
-                            class="form-input"
-                            placeholder="请再次输入密�?
-                            data-i18n-ph="ph_reg_confirm"
-                        >
-                        <button type="button" class="toggle-password" id="toggleConfirm" aria-label="显示密码">
-                            <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                            <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                <line x1="1" y1="1" x2="23" y2="23"></line>
-                            </svg>
-                        </button>
-                    </div>
-                    <span class="field-error" id="errConfirm"></span>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="submit-btn submit-btn--ghost" id="cancelBtn" data-i18n="cancel">取消</button>
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span class="btn-text" data-i18n="btn_register">注册</span>
-                        <span class="btn-loader hidden"></span>
-                    </button>
-                </div>
-
-                <p class="form-note" data-i18n="reg_note">演示站点：账号与密码仅保存在本地浏览器，不会上传服务器�?/p>
-            </form>
+      <div class="card-body">
+        <div class="body-title" data-i18n="body_register_title">注册新账号</div>
+        <div class="body-subtitle" data-i18n="body_register_subtitle">
+          账号信息将保存在本设备
         </div>
 
-        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        <div class="field">
+          <label data-i18n="reg_account">账号</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <input id="regAccount" type="text" data-i18n-ph="reg_account_ph" autocomplete="username" />
+          </div>
+          <div class="field-error" id="regAccountErr"></div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="reg_email">邮箱</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <input id="regEmail" type="email" data-i18n-ph="reg_email_ph" autocomplete="email" />
+          </div>
+          <div class="field-error" id="regEmailErr"></div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="reg_password">密码</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <input id="regPassword" class="input-with-toggle" type="password" data-i18n-ph="reg_password_ph" autocomplete="new-password" />
+            <button id="togglePwd" class="toggle-pwd" type="button" data-i18n-title="show_pwd" title="显示密码">
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+          <div class="field-error" id="regPasswordErr"></div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="reg_confirm">确认密码</label>
+          <div class="input-wrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            <input id="regConfirm" class="input-with-toggle" type="password" data-i18n-ph="reg_confirm_ph" autocomplete="new-password" />
+            <button id="toggleConfirmPwd" class="toggle-pwd" type="button" data-i18n-title="show_pwd" title="显示密码">
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+          <div class="field-error" id="regConfirmErr"></div>
+        </div>
+
+        <div class="btn-row">
+          <button id="cancelBtn" class="btn btn-ghost" data-i18n="cancel">取消</button>
+          <button id="regSubmit" class="btn btn-primary" data-i18n="reg_submit">注册</button>
+        </div>
+
+        <div class="footer-hint" data-i18n="footer_demo_hint">
+          演示站点：账号与密码仅保存在本地浏览器，不会上传服务器。
+        </div>
+      </div>
     </div>
 
     <script>
-/* === inlined: i18n.js === */
-/* 全局中英文切�?*/
+/* public/js/i18n.js —— 全站共享国际化与工具 */
 const I18N = {
-    zh: {
-        hero_title: '欢迎使用现场稽核评估',
-        hero_desc: '公告组件可在首页中心位置即时传达重要消息、更新或推广内容，为您提供无缝方式传递关键信息，如应用更新和其他时效性内容�?,
-        hero_cta: '配置公告组件',
-        form_title: '登录账号',
-        form_subtitle: '请输入您的账号和密码继续',
-        label_account: '账号',
-        label_password: '密码',
-        ph_account: '请输入账�?,
-        ph_password: '请输入密�?,
-        remember: '保存密码',
-        forgot: '忘记密码�?,
-        btn_login: '登录',
-        ws_title: '工作�?,
-        ws_prefix: '欢迎回来�?,
-        ws_suffix: ' · 开始你的搜索与创建',
-        search_hint: '输入过的名称会以历史下拉形式保存，点击即可复�?,
-        create_hint: '点击下方按钮直接创建新条�?,
-        btn_create: '创建',
-        back: '返回',
-        create_title: '创建',
-        create_subtitle: '填写以下信息以新建条�?,
-        cancel: '取消',
-        ph_supplier: '如：上海精密制造有限公�?,
-        ph_bp: '如：BP-100245',
-        ph_contact: '如：张伟',
-        ph_email: '如：contact@example.com',
-        ph_commodity: '如：电子元器�?,
-        ph_audit: '如：AF-2026-0001',
-        ph_search: '输入关键词搜索（支持�?/ 英文�?,
-        empty_history: '暂无历史记录',
-        empty_account: '暂无历史账号',
-        toast_account_required: '请输入账�?,
-        toast_password_required: '请输入密�?,
-        toast_login_success: '登录成功�?,
-        toast_search_empty: '请输入搜索关键词',
-        toast_search_by: '按「{type}」搜索：{val}',
-        toast_create_success: '创建成功�?,
-        pw_show: '显示密码',
-        pw_hide: '隐藏密码',
-        btn_create_account: '创建账号',
-        reg_title: '创建账号',
-        reg_subtitle: '填写以下信息注册新账�?,
-        reg_form_title: '注册新账�?,
-        reg_form_subtitle: '账号信息将保存在本设�?,
-        reg_label_account: '账号',
-        reg_label_email: '邮箱',
-        reg_label_password: '密码',
-        reg_label_confirm: '确认密码',
-        ph_reg_account: '请输入账号（至少 3 个字符）',
-        ph_reg_email: '请输入邮�?,
-        ph_reg_password: '请输入密码（至少 6 位）',
-        ph_reg_confirm: '请再次输入密�?,
-        btn_register: '注册',
-        reg_note: '演示站点：账号与密码仅保存在本地浏览器，不会上传服务器�?,
-        reg_err_account_required: '请输入账�?,
-        reg_err_account_length: '账号至少 3 个字�?,
-        reg_err_account_format: '账号只能包含字母、数字、下划线�?@ .',
-        reg_err_account_exists: '该账号已被注�?,
-        reg_err_email_required: '请输入邮�?,
-        reg_err_email_format: '邮箱格式不正�?,
-        reg_err_password_required: '请输入密�?,
-        reg_err_password_length: '密码至少 6 �?,
-        reg_err_confirm_required: '请再次输入密�?,
-        reg_err_confirm_match: '两次输入的密码不一�?,
-        toast_register_success: '注册成功！请登录',
-        toast_login_wrong_password: '密码错误'
-    },
-    en: {
-        hero_title: 'Welcome to Onsite Audit Assessment',
-        hero_desc: 'The Announcement Widget can take center stage on the home screen to instantly relay important messages, updates, or promotions. It can offer a seamless way to communicate critical information, such as application updates and other time-sensitive information.',
-        hero_cta: 'Configure the Announcements widget',
-        form_title: 'Sign In',
-        form_subtitle: 'Enter your account and password to continue',
-        label_account: 'Account',
-        label_password: 'Password',
-        ph_account: 'Enter your account',
-        ph_password: 'Enter your password',
-        remember: 'Save password',
-        forgot: 'Forgot password?',
-        btn_login: 'Sign In',
-        ws_title: 'Workspace',
-        ws_prefix: 'Welcome back, ',
-        ws_suffix: ' · Start your search and create',
-        search_hint: 'Previously entered names are saved as a history dropdown, click to reuse',
-        create_hint: 'Click the button below to create a new entry directly',
-        btn_create: 'Create',
-        back: 'Back',
-        create_title: 'Create',
-        create_subtitle: 'Fill in the following information to create a new entry',
-        cancel: 'Cancel',
-        ph_supplier: 'e.g. Shanghai Precision Mfg. Co., Ltd.',
-        ph_bp: 'e.g. BP-100245',
-        ph_contact: 'e.g. Zhang Wei',
-        ph_email: 'e.g. contact@example.com',
-        ph_commodity: 'e.g. Electronic Components',
-        ph_audit: 'e.g. AF-2026-0001',
-        ph_search: 'Enter keywords to search (CN / EN supported)',
-        empty_history: 'No history yet',
-        empty_account: 'No saved accounts',
-        toast_account_required: 'Please enter your account',
-        toast_password_required: 'Please enter your password',
-        toast_login_success: 'Signed in successfully!',
-        toast_search_empty: 'Please enter a search keyword',
-        toast_search_by: 'Search by {type}: {val}',
-        toast_create_success: 'Created successfully!',
-        pw_show: 'Show password',
-        pw_hide: 'Hide password',
-        btn_create_account: 'Create Account',
-        reg_title: 'Create Account',
-        reg_subtitle: 'Fill in the details to create a new account',
-        reg_form_title: 'Register a new account',
-        reg_form_subtitle: 'Your account info is stored on this device',
-        reg_label_account: 'Account',
-        reg_label_email: 'Email',
-        reg_label_password: 'Password',
-        reg_label_confirm: 'Confirm Password',
-        ph_reg_account: 'Enter account (min 3 characters)',
-        ph_reg_email: 'Enter your email',
-        ph_reg_password: 'Enter password (min 6 characters)',
-        ph_reg_confirm: 'Re-enter your password',
-        btn_register: 'Register',
-        reg_note: 'Demo only: account & password are stored locally in your browser and never sent to a server.',
-        reg_err_account_required: 'Please enter an account',
-        reg_err_account_length: 'Account must be at least 3 characters',
-        reg_err_account_format: 'Account can only contain letters, digits, _ @ .',
-        reg_err_account_exists: 'This account is already registered',
-        reg_err_email_required: 'Please enter an email',
-        reg_err_email_format: 'Invalid email format',
-        reg_err_password_required: 'Please enter a password',
-        reg_err_password_length: 'Password must be at least 6 characters',
-        reg_err_confirm_required: 'Please confirm your password',
-        reg_err_confirm_match: 'Passwords do not match',
-        toast_register_success: 'Registered! Please sign in',
-        toast_login_wrong_password: 'Incorrect password'
-    }
+  zh: {
+    app_name: '登录审计系统',
+
+    // 登录页头部
+    login_header_title: '欢迎使用现场稽核评估',
+    login_header_subtitle:
+      '公告组件可在首页中心位置即时传达重要消息、更新或推广内容，为您提供无缝方式传递关键信息，如应用更新和其他时效性内容。',
+    login_header_action: '配置公告组件',
+
+    // 登录页主体
+    body_login_title: '登录账号',
+    body_login_subtitle: '请输入您的账号和密码继续',
+    account: '账号',
+    password: '密码',
+    account_ph: '请输入账号',
+    password_ph: '请输入密码',
+    show_pwd: '显示密码',
+    hide_pwd: '隐藏密码',
+    account_history: '账号历史',
+    history_empty: '暂无历史',
+    save_password: '保存密码',
+    forgot_password: '忘记密码？',
+    login_btn: '登录',
+    create_account_btn: '创建账号',
+    back: '返回',
+    cancel: '取消',
+
+    // 搜索页
+    search_header_title: '工作台',
+    search_header_subtitle: '欢迎回来，{account} · 开始你的搜索与创建',
+    search_title: '搜索',
+    type_label: '选择类型',
+    type_supplier: '供应商名称',
+    type_bp: '业务伙伴 BP code',
+    type_audit: '稽核表单编号 Audit form No.',
+    ph_search: '输入关键词搜索',
+    search_btn_title: '搜索',
+    create_title: '创建',
+    create_btn: '创建',
+    search_hint: '输入过的名称会以历史下拉形式保存，点击即可复用',
+    create_hint: '点击下方按钮直接创建新条目',
+
+    // 创建页
+    create_header_title: '创建',
+    create_header_subtitle: '填写以下信息以新建条目',
+    f_supplier: '供应商名称',
+    f_bp: '业务伙伴',
+    f_contact_name: '联系人姓名',
+    f_contact_email: '联系人邮箱',
+    f_commodity: '商品类型',
+    f_audit: '稽核表单编号',
+    ph_supplier: '如：上海精密制造有限公司',
+    ph_bp: '如：BP-100245',
+    ph_contact_name: '如：张伟',
+    ph_contact_email: '如：contact@example.com',
+    ph_commodity: '如：电子元器件',
+    ph_audit: '如：AF-2026-0001',
+    submit_btn: '创建',
+    empty_history: '暂无历史记录',
+
+    // 注册页
+    register_header_title: '创建账号',
+    register_header_subtitle: '填写以下信息注册新账号',
+    body_register_title: '注册新账号',
+    body_register_subtitle: '账号信息将保存在本设备',
+    reg_title: '创建账号',
+    reg_account: '账号',
+    reg_email: '邮箱',
+    reg_password: '密码',
+    reg_confirm: '确认密码',
+    reg_submit: '注册',
+    reg_account_ph: '请输入账号（至少 3 个字符）',
+    reg_email_ph: '请输入邮箱',
+    reg_password_ph: '请输入密码（至少 6 位）',
+    reg_confirm_ph: '请再次输入密码',
+    footer_demo_hint: '演示站点：账号与密码仅保存在本地浏览器，不会上传服务器。',
+
+    // 错误提示
+    err_account_required: '账号不能为空',
+    err_account_len: '账号至少 3 个字符',
+    err_account_charset: '账号只能包含字母、数字、_ @ .',
+    err_account_taken: '该账号已被注册',
+    err_email: '邮箱格式不正确',
+    err_password_len: '密码至少 6 位',
+    err_password_match: '两次输入的密码不一致',
+
+    // Toast
+    toast_register_success: '注册成功！请登录',
+    toast_login_account_required: '请输入账号',
+    toast_login_password_required: '请输入密码',
+    toast_login_wrong_password: '密码错误',
+    toast_register_return: '已为你回填注册账号',
+    toast_saved: '已保存',
+    toast_search_demo: '搜索功能演示',
+
+    lang_zh: '中文',
+    lang_en: 'English',
+  },
+  en: {
+    app_name: 'Login Audit System',
+
+    login_header_title: 'Welcome to On-site Audit Evaluation',
+    login_header_subtitle:
+      'The announcement component can instantly deliver important messages, updates, or promotions from the center of the homepage.',
+    login_header_action: 'Configure Announcements',
+
+    body_login_title: 'Sign In to Your Account',
+    body_login_subtitle: 'Enter your account and password to continue',
+    account: 'Account',
+    password: 'Password',
+    account_ph: 'Enter your account',
+    password_ph: 'Enter your password',
+    show_pwd: 'Show password',
+    hide_pwd: 'Hide password',
+    account_history: 'Account history',
+    history_empty: 'No history',
+    save_password: 'Remember password',
+    forgot_password: 'Forgot password?',
+    login_btn: 'Sign In',
+    create_account_btn: 'Create Account',
+    back: 'Back',
+    cancel: 'Cancel',
+
+    search_header_title: 'Workbench',
+    search_header_subtitle: 'Welcome back, {account} · start your search and create',
+    search_title: 'Search',
+    type_label: 'Select type',
+    type_supplier: 'Supplier Name',
+    type_bp: 'Business Partner BP code',
+    type_audit: 'Audit Form No.',
+    ph_search: 'Enter keywords to search',
+    search_btn_title: 'Search',
+    create_title: 'Create',
+    create_btn: 'Create',
+    search_hint: 'Entered names are saved as history dropdowns, click to reuse',
+    create_hint: 'Click the button below to directly create a new entry',
+
+    create_header_title: 'Create',
+    create_header_subtitle: 'Fill in the information to create a new entry',
+    f_supplier: 'Supplier Name',
+    f_bp: 'BP code',
+    f_contact_name: 'Contact Name',
+    f_contact_email: 'Contact Email',
+    f_commodity: 'Commodity Type',
+    f_audit: 'Audit form No.',
+    ph_supplier: 'e.g. Shanghai Precision Manufacturing Co.',
+    ph_bp: 'e.g. BP-100245',
+    ph_contact_name: 'e.g. Zhang Wei',
+    ph_contact_email: 'e.g. contact@example.com',
+    ph_commodity: 'e.g. Electronic Components',
+    ph_audit: 'e.g. AF-2026-0001',
+    submit_btn: 'Create',
+    empty_history: 'No history yet',
+
+    register_header_title: 'Create Account',
+    register_header_subtitle: 'Fill in the information to register a new account',
+    body_register_title: 'Register New Account',
+    body_register_subtitle: 'Account information will be saved on this device',
+    reg_title: 'Create Account',
+    reg_account: 'Account',
+    reg_email: 'Email',
+    reg_password: 'Password',
+    reg_confirm: 'Confirm Password',
+    reg_submit: 'Register',
+    reg_account_ph: 'Enter account (at least 3 characters)',
+    reg_email_ph: 'Enter email',
+    reg_password_ph: 'Enter password (at least 6 characters)',
+    reg_confirm_ph: 'Re-enter password',
+    footer_demo_hint:
+      'Demo site: account and password are saved only in the local browser and will not be uploaded to the server.',
+
+    err_account_required: 'Account is required',
+    err_account_len: 'Account must be at least 3 characters',
+    err_account_charset: 'Account can only contain letters, digits, _ @ .',
+    err_account_taken: 'This account is already registered',
+    err_email: 'Invalid email format',
+    err_password_len: 'Password must be at least 6 characters',
+    err_password_match: 'Passwords do not match',
+
+    toast_register_success: 'Registered! Please sign in',
+    toast_login_account_required: 'Please enter your account',
+    toast_login_password_required: 'Please enter your password',
+    toast_login_wrong_password: 'Wrong password',
+    toast_register_return: 'Your registered account has been filled in',
+    toast_saved: 'Saved',
+    toast_search_demo: 'Search demo',
+
+    lang_zh: '中文',
+    lang_en: 'English',
+  },
 };
 
-function applyLang(lang) {
-    lang = lang === 'en' ? 'en' : 'zh';
-    document.body.setAttribute('data-lang', lang);
-
-    document.querySelectorAll('[data-i18n]').forEach((el) => {
-        const key = el.getAttribute('data-i18n');
-        if (I18N[lang][key] != null) el.textContent = I18N[lang][key];
-    });
-
-    document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
-        const key = el.getAttribute('data-i18n-ph');
-        if (I18N[lang][key] != null) el.setAttribute('placeholder', I18N[lang][key]);
-    });
-
-    document.querySelectorAll('.lang-opt').forEach((b) => {
-        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
-    });
-
-    localStorage.setItem('lang', lang);
-    document.dispatchEvent(new CustomEvent('langchanged', { detail: { lang } }));
-}
-
-function initLang() {
-    const lang = localStorage.getItem('lang') || 'zh';
-    applyLang(lang);
-    const switchEl = document.getElementById('langSwitch');
-    if (switchEl) {
-        switchEl.addEventListener('click', (e) => {
-            const btn = e.target.closest('.lang-opt');
-            if (!btn) return;
-            applyLang(btn.getAttribute('data-lang'));
-        });
-    }
-}
-
 function getLang() {
-    return document.body.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
+  let lang = localStorage.getItem('lang');
+  if (lang !== 'zh' && lang !== 'en') lang = 'zh';
+  return lang;
 }
 
 function t(key, vars) {
-    let str = I18N[getLang()][key];
-    if (str == null) str = key;
-    if (vars) {
-        Object.keys(vars).forEach((k) => {
-            str = str.split('{' + k + '}').join(vars[k]);
-        });
+  const lang = getLang();
+  let str = (I18N[lang] && I18N[lang][key]) != null ? I18N[lang][key] : key;
+  if (vars && typeof vars === 'object') {
+    for (const k in vars) {
+      str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), vars[k]);
     }
-    return str;
+  }
+  return str;
 }
 
-initLang();
+function applyLang(lang) {
+  if (lang !== 'zh' && lang !== 'en') lang = 'zh';
+  localStorage.setItem('lang', lang);
+  document.documentElement.setAttribute('data-lang', lang);
+
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-ph');
+    el.setAttribute('placeholder', t(key));
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-title');
+    el.setAttribute('title', t(key));
+    if (el.hasAttribute('aria-label')) el.setAttribute('aria-label', t(key));
+  });
+  document.querySelectorAll('.lang-opt').forEach((btn) => {
+    const active = btn.getAttribute('data-lang') === lang;
+    btn.classList.toggle('active', active);
+  });
+
+  window.dispatchEvent(new CustomEvent('langchanged', { detail: { lang } }));
+}
+
+function initLang() {
+  const sw = document.getElementById('langSwitch');
+  if (sw) {
+    sw.addEventListener('click', (e) => {
+      const btn = e.target.closest('.lang-opt');
+      if (!btn) return;
+      applyLang(btn.getAttribute('data-lang'));
+    });
+  }
+  applyLang(getLang());
+}
+
+/* ---------- 全局 Toast 助手 ---------- */
+function toast(msg, ms) {
+  ms = ms || 2400;
+  let box = document.getElementById('toastBox');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'toastBox';
+    box.style.cssText =
+      'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;';
+    document.body.appendChild(box);
+  }
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText =
+    'background:rgba(20,24,38,.92);color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);transition:.25s;';
+  box.appendChild(el);
+  requestAnimationFrame(() => {
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  });
+  setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(() => el.remove(), 300);
+  }, ms);
+}
+
+/* ---------- localStorage 历史助手 ---------- */
+function getHistory(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+function pushHistory(key, value) {
+  if (!value) return;
+  let arr = getHistory(key).filter((v) => v !== value);
+  arr.unshift(value);
+  if (arr.length > 10) arr = arr.slice(0, 10);
+  localStorage.setItem(key, JSON.stringify(arr));
+}
+function getRegistered() {
+  try {
+    return JSON.parse(localStorage.getItem('registered_accounts') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+/* 图标 SVG（供 JS 动态切换） */
+const ICONS = {
+  eye: '<svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
+  eyeOff:
+    '<svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.93 9.93 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>',
+};
+
+/* 暴露到全局 */
+window.I18N = I18N;
+window.getLang = getLang;
+window.t = t;
+window.applyLang = applyLang;
+window.initLang = initLang;
+window.toast = toast;
+window.getHistory = getHistory;
+window.pushHistory = pushHistory;
+window.getRegistered = getRegistered;
+window.ICONS = ICONS;
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLang);
+} else {
+  initLang();
+}
 
 </script>
     <script>
-/* === inlined: register.js === */
+/* public/js/register.js —— 真实注册流程 */
 (function () {
-    'use strict';
+  const $ = (id) => document.getElementById(id);
 
-    const REGISTERED_KEY = 'registered_accounts';
-    const LOGIN_HISTORY_KEY = 'login_history';
-    const JUST_REGISTERED_KEY = 'just_registered';
+  const accountEl = $('regAccount');
+  const emailEl = $('regEmail');
+  const pwdEl = $('regPassword');
+  const confirmEl = $('regConfirm');
 
-    const form = document.getElementById('registerForm');
-    const accountInput = document.getElementById('regAccount');
-    const emailInput = document.getElementById('regEmail');
-    const passwordInput = document.getElementById('regPassword');
-    const confirmInput = document.getElementById('regConfirm');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = submitBtn.querySelector('.btn-text');
-    const btnLoader = submitBtn.querySelector('.btn-loader');
-    const backBtn = document.getElementById('backBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const toast = document.getElementById('toast');
+  const RE_ACCOUNT = /^[A-Za-z0-9_@.]+$/;
+  const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const errAccount = document.getElementById('errAccount');
-    const errEmail = document.getElementById('errEmail');
-    const errPassword = document.getElementById('errPassword');
-    const errConfirm = document.getElementById('errConfirm');
-
-    function showToast(message, type = '') {
-        toast.textContent = message;
-        toast.className = 'toast' + (type ? ' ' + type : '');
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+  function setError(inputId, msg) {
+    const err = $(inputId + 'Err');
+    if (err) {
+      err.textContent = msg || '';
+      err.classList.toggle('show', !!msg);
     }
+  }
+  function clearError(inputId) {
+    setError(inputId, '');
+  }
+  function bindClear(id) {
+    $(id).addEventListener('input', () => clearError(id));
+  }
+  bindClear('regAccount');
+  bindClear('regEmail');
+  bindClear('regPassword');
+  bindClear('regConfirm');
 
-    function setLoading(isLoading) {
-        submitBtn.disabled = isLoading;
-        btnText.classList.toggle('hidden', isLoading);
-        btnLoader.classList.toggle('hidden', !isLoading);
-    }
-
-    function setFieldError(input, errEl, msg) {
-        if (msg) {
-            errEl.textContent = msg;
-            errEl.classList.add('show');
-            input.classList.add('input-error');
-        } else {
-            errEl.textContent = '';
-            errEl.classList.remove('show');
-            input.classList.remove('input-error');
-        }
-    }
-
-    function accountExists(account) {
-        try {
-            const list = JSON.parse(localStorage.getItem(REGISTERED_KEY) || '[]');
-            return list.some(r => r.account === account);
-        } catch (e) {
-            return false;
-        }
-    }
-
-    function getErrors() {
-        const account = accountInput.value.trim();
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-        const confirm = confirmInput.value;
-        const errors = {};
-
-        if (!account) {
-            errors.account = t('reg_err_account_required');
-        } else if (account.length < 3) {
-            errors.account = t('reg_err_account_length');
-        } else if (!/^[A-Za-z0-9_@.]+$/.test(account)) {
-            errors.account = t('reg_err_account_format');
-        } else if (accountExists(account)) {
-            errors.account = t('reg_err_account_exists');
-        }
-
-        if (!email) {
-            errors.email = t('reg_err_email_required');
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errors.email = t('reg_err_email_format');
-        }
-
-        if (!password) {
-            errors.password = t('reg_err_password_required');
-        } else if (password.length < 6) {
-            errors.password = t('reg_err_password_length');
-        }
-
-        if (!confirm) {
-            errors.confirm = t('reg_err_confirm_required');
-        } else if (confirm !== password) {
-            errors.confirm = t('reg_err_confirm_match');
-        }
-
-        return errors;
-    }
-
-    function renderErrors(errors) {
-        setFieldError(accountInput, errAccount, errors.account || '');
-        setFieldError(emailInput, errEmail, errors.email || '');
-        setFieldError(passwordInput, errPassword, errors.password || '');
-        setFieldError(confirmInput, errConfirm, errors.confirm || '');
-    }
-
-    function bindToggle(btn, input) {
-        if (!btn) return;
-        btn.addEventListener('click', () => {
-            const isPassword = input.type === 'password';
-            input.type = isPassword ? 'text' : 'password';
-            btn.querySelector('.eye-open').classList.toggle('hidden', !isPassword);
-            btn.querySelector('.eye-closed').classList.toggle('hidden', isPassword);
-            btn.setAttribute('aria-label', isPassword ? t('pw_hide') : t('pw_show'));
-        });
-    }
-
-    bindToggle(document.getElementById('togglePassword'), passwordInput);
-    bindToggle(document.getElementById('toggleConfirm'), confirmInput);
-
-    // 输入时清除对应字段的错误提示
-    const clearMap = [
-        [accountInput, errAccount],
-        [emailInput, errEmail],
-        [passwordInput, errPassword],
-        [confirmInput, errConfirm]
-    ];
-    clearMap.forEach(([inp, errEl]) => {
-        inp.addEventListener('input', () => setFieldError(inp, errEl, ''));
+  // 密码显示切换
+  function bindToggle(btnId, inputId) {
+    const btn = $(btnId);
+    const input = $(inputId);
+    btn.addEventListener('click', () => {
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.innerHTML = show ? ICONS.eyeOff : ICONS.eye;
+      btn.setAttribute('data-i18n-title', show ? 'hide_pwd' : 'show_pwd');
+      btn.title = t(show ? 'hide_pwd' : 'show_pwd');
     });
+  }
+  bindToggle('togglePwd', 'regPassword');
+  bindToggle('toggleConfirmPwd', 'regConfirm');
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
+  // 取消/返回
+  $('cancelBtn').addEventListener('click', () => {
+    location.href = 'index.html';
+  });
+  $('backBtn').addEventListener('click', () => {
+    location.href = 'index.html';
+  });
 
-        const errors = getErrors();
-        renderErrors(errors);
+  $('regSubmit').addEventListener('click', () => {
+    const account = accountEl.value.trim();
+    const email = emailEl.value.trim();
+    const pwd = pwdEl.value;
+    const confirm = confirmEl.value;
+    let ok = true;
 
-        const order = ['account', 'email', 'password', 'confirm'];
-        const firstKey = order.find(k => errors[k]);
-        if (firstKey) {
-            showToast(errors[firstKey], 'error');
-            const map = { account: accountInput, email: emailInput, password: passwordInput, confirm: confirmInput };
-            map[firstKey].focus();
-            return;
-        }
-
-        setLoading(true);
-
-        // 模拟注册请求
-        setTimeout(() => {
-            const account = accountInput.value.trim();
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
-
-            // 持久化注册账�?            let list = [];
-            try {
-                list = JSON.parse(localStorage.getItem(REGISTERED_KEY) || '[]');
-            } catch (err) {
-                list = [];
-            }
-            list.push({ account, email, password, createdAt: Date.now() });
-            localStorage.setItem(REGISTERED_KEY, JSON.stringify(list));
-
-            // 同步到登录历史下�?            let hist = [];
-            try {
-                hist = JSON.parse(localStorage.getItem(LOGIN_HISTORY_KEY) || '[]');
-            } catch (err) {
-                hist = [];
-            }
-            if (!hist.some(h => h.account === account)) {
-                hist.unshift({ account, password: '' });
-                hist = hist.slice(0, 10);
-                localStorage.setItem(LOGIN_HISTORY_KEY, JSON.stringify(hist));
-            }
-
-            // 标记登录页自动回�?            localStorage.setItem(JUST_REGISTERED_KEY, account);
-
-            setLoading(false);
-            showToast(t('toast_register_success'), 'success');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 800);
-        }, 1000);
-    });
-
-    function goBack() {
-        window.location.href = 'index.html';
+    if (!account) {
+      setError('regAccount', t('err_account_required'));
+      ok = false;
+    } else if (account.length < 3) {
+      setError('regAccount', t('err_account_len'));
+      ok = false;
+    } else if (!RE_ACCOUNT.test(account)) {
+      setError('regAccount', t('err_account_charset'));
+      ok = false;
+    } else if (getRegistered().some((r) => r.account === account)) {
+      setError('regAccount', t('err_account_taken'));
+      ok = false;
     }
 
-    backBtn.addEventListener('click', goBack);
-    cancelBtn.addEventListener('click', goBack);
+    if (!RE_EMAIL.test(email)) {
+      setError('regEmail', t('err_email'));
+      ok = false;
+    }
 
-    // 语言切换时刷新已显示的错误文�?    document.addEventListener('langchanged', () => {
-        const errors = getErrors();
-        renderErrors(errors);
-    });
+    if (pwd.length < 6) {
+      setError('regPassword', t('err_password_len'));
+      ok = false;
+    }
+
+    if (pwd !== confirm) {
+      setError('regConfirm', t('err_password_match'));
+      ok = false;
+    }
+
+    if (!ok) return;
+
+    const list = getRegistered();
+    list.push({ account, email, password: pwd, createdAt: new Date().toISOString() });
+    localStorage.setItem('registered_accounts', JSON.stringify(list));
+    pushHistory('login_history', account);
+    localStorage.setItem('just_registered', account);
+
+    toast(t('toast_register_success'));
+    setTimeout(() => {
+      location.href = 'index.html';
+    }, 800);
+  });
 })();
 
 </script>
-</body>
+  </body>
 </html>
