@@ -214,8 +214,36 @@ body {
   right: 14px;
   width: 16px;
   height: 16px;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
+
+.input-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 6px 0;
+  z-index: 100;
+  display: none;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.input-dropdown.show { display: block; }
+.input-dropdown li {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.15s;
+}
+.input-dropdown li:hover { background: var(--bg-light); }
 
 .toggle-pwd {
   right: 14px;
@@ -509,9 +537,10 @@ select {
               <circle cx="12" cy="7" r="4" />
             </svg>
             <input id="account" class="input-with-arrow" type="text" data-i18n-ph="account_ph" autocomplete="username" />
-            <svg class="input-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="input-arrow" id="accountArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
+            <ul id="accountHistory" class="input-dropdown"></ul>
           </div>
         </div>
 
@@ -907,6 +936,45 @@ if (document.readyState === 'loading') {
     pwdEl.value = savedPwd;
     savePwdEl.checked = true;
   }
+
+  // 账号历史下拉（点击右侧箭头弹出）
+  const accountArrow = $('accountArrow');
+  const accountDropdown = $('accountHistory');
+
+  function renderAccountDropdown() {
+    const hist = getHistory('login_history');
+    accountDropdown.innerHTML = '';
+    if (!hist.length) {
+      accountDropdown.innerHTML = '<li style="color:var(--text-light);cursor:default" data-i18n="history_empty">' + t('history_empty') + '</li>';
+      return;
+    }
+    hist.forEach((v) => {
+      const li = document.createElement('li');
+      li.textContent = v;
+      li.addEventListener('click', () => {
+        accountEl.value = v;
+        accountDropdown.classList.remove('show');
+      });
+      accountDropdown.appendChild(li);
+    });
+  }
+
+  accountArrow.addEventListener('click', (e) => {
+    e.stopPropagation();
+    renderAccountDropdown();
+    accountDropdown.classList.toggle('show');
+  });
+
+  // 点击输入框也弹出（focus）
+  accountEl.addEventListener('focus', () => {
+    renderAccountDropdown();
+    accountDropdown.classList.add('show');
+  });
+
+  // 点击页面其他区域关闭下拉
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.input-wrap')) accountDropdown.classList.remove('show');
+  });
 
   // 显示/隐藏密码（SVG 切换）
   toggleBtn.addEventListener('click', () => {
