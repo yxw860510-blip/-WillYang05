@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search & Create</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" crossorigin href="/assets/styles-DhdVldZh.css">
+</head>
+<body data-lang="zh">
+    <div class="page-wrapper">
+        <div class="login-card">
+            <!-- 顶部栏 -->
+            <div class="hero-banner hero-banner--compact">
+                <div class="hero-bg-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                </div>
+                <div class="hero-content hero-content--row">
+                    <div class="hero-greeting">
+                        <h1 class="hero-title hero-title--sm" data-i18n="ws_title">工作台</h1>
+                        <p class="hero-desc hero-desc--sm" id="welcomeText">欢迎回来，开始你的搜索与创建</p>
+                    </div>
+                    <div class="hero-actions">
+                        <div class="lang-switch lang-switch--inline" id="langSwitch">
+                            <button type="button" class="lang-opt active" data-lang="zh">中文</button>
+                            <button type="button" class="lang-opt" data-lang="en">English</button>
+                        </div>
+                        <button class="hero-logout" type="button" id="logoutBtn" title="退出登录">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            <span data-i18n="back">退出</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 搜索 / 创建 -->
+            <div class="search-panel">
+                <div class="search-group">
+                    <label class="form-label" for="searchInput">
+                        <span class="label-cn">搜索</span>
+                        <span class="label-en">Search</span>
+                    </label>
+                    <div class="input-row">
+                        <div class="search-type">
+                            <button type="button" class="type-trigger" id="typeTrigger" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="type-current" id="typeCurrent">供应商名称</span>
+                                <svg class="type-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <ul class="type-menu" id="typeMenu" role="listbox">
+                                <li class="type-option" role="option" data-value="supplier">
+                                    <span class="type-cn">供应商名称</span>
+                                    <span class="type-en">Supplier Name</span>
+                                </li>
+                                <li class="type-option" role="option" data-value="bpcode">
+                                    <span class="type-cn">业务伙伴</span>
+                                    <span class="type-en">BP code</span>
+                                </li>
+                                <li class="type-option" role="option" data-value="auditno">
+                                    <span class="type-cn">稽核表单编号</span>
+                                    <span class="type-en">Audit form No.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-wrapper input-wrapper--with-btn">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input
+                                type="text"
+                                id="searchInput"
+                                class="form-input"
+                                placeholder="输入关键词搜索（支持中 / 英文）" data-i18n-ph="ph_search"
+                                autocomplete="off"
+                            >
+                            <button type="button" class="dropdown-trigger" id="searchToggle" aria-label="查看历史搜索">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <ul class="history-dropdown" id="searchDropdown" role="listbox"></ul>
+                        </div>
+                        <button type="button" class="circle-btn" id="searchBtn" aria-label="搜索">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="field-hint" data-i18n="search_hint">输入过的名称会以历史下拉形式保存，点击即可复用</p>
+                </div>
+
+                <div class="search-group">
+                    <label class="form-label">
+                        <span class="label-cn">创建</span>
+                        <span class="label-en">Create</span>
+                    </label>
+                    <button type="button" class="submit-btn create-btn" id="createBtn">
+                        <span class="btn-icon">+</span>
+                        <span class="btn-text" data-i18n="btn_create">创建 Create</span>
+                    </button>
+                    <p class="field-hint" data-i18n="create_hint">点击下方按钮直接创建新条目</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+
+    <script>
+/* === inlined: i18n.js === */
+/* 全局中英文切换 */
+const I18N = {
+    zh: {
+        hero_title: '欢迎使用现场稽核评估',
+        hero_desc: '公告组件可在首页中心位置即时传达重要消息、更新或推广内容，为您提供无缝方式传递关键信息，如应用更新和其他时效性内容。',
+        hero_cta: '配置公告组件',
+        form_title: '登录账号',
+        form_subtitle: '请输入您的账号和密码继续',
+        label_account: '账号',
+        label_password: '密码',
+        ph_account: '请输入账号',
+        ph_password: '请输入密码',
+        remember: '保存密码',
+        forgot: '忘记密码？',
+        btn_login: '登录',
+        ws_title: '工作台',
+        ws_prefix: '欢迎回来，',
+        ws_suffix: ' · 开始你的搜索与创建',
+        search_hint: '输入过的名称会以历史下拉形式保存，点击即可复用',
+        create_hint: '点击下方按钮直接创建新条目',
+        btn_create: '创建',
+        back: '返回',
+        create_title: '创建',
+        create_subtitle: '填写以下信息以新建条目',
+        cancel: '取消',
+        ph_supplier: '如：上海精密制造有限公司',
+        ph_bp: '如：BP-100245',
+        ph_contact: '如：张伟',
+        ph_email: '如：contact@example.com',
+        ph_commodity: '如：电子元器件',
+        ph_audit: '如：AF-2026-0001',
+        ph_search: '输入关键词搜索（支持中 / 英文）',
+        empty_history: '暂无历史记录',
+        empty_account: '暂无历史账号',
+        toast_account_required: '请输入账号',
+        toast_password_required: '请输入密码',
+        toast_login_success: '登录成功！',
+        toast_search_empty: '请输入搜索关键词',
+        toast_search_by: '按「{type}」搜索：{val}',
+        toast_create_success: '创建成功！',
+        pw_show: '显示密码',
+        pw_hide: '隐藏密码',
+        btn_create_account: '创建账号',
+        reg_title: '创建账号',
+        reg_subtitle: '填写以下信息注册新账号',
+        reg_form_title: '注册新账号',
+        reg_form_subtitle: '账号信息将保存在本设备',
+        reg_label_account: '账号',
+        reg_label_email: '邮箱',
+        reg_label_password: '密码',
+        reg_label_confirm: '确认密码',
+        ph_reg_account: '请输入账号（至少 3 个字符）',
+        ph_reg_email: '请输入邮箱',
+        ph_reg_password: '请输入密码（至少 6 位）',
+        ph_reg_confirm: '请再次输入密码',
+        btn_register: '注册',
+        reg_note: '演示站点：账号与密码仅保存在本地浏览器，不会上传服务器。',
+        reg_err_account_required: '请输入账号',
+        reg_err_account_length: '账号至少 3 个字符',
+        reg_err_account_format: '账号只能包含字母、数字、下划线或 @ .',
+        reg_err_account_exists: '该账号已被注册',
+        reg_err_email_required: '请输入邮箱',
+        reg_err_email_format: '邮箱格式不正确',
+        reg_err_password_required: '请输入密码',
+        reg_err_password_length: '密码至少 6 位',
+        reg_err_confirm_required: '请再次输入密码',
+        reg_err_confirm_match: '两次输入的密码不一致',
+        toast_register_success: '注册成功！请登录',
+        toast_login_wrong_password: '密码错误'
+    },
+    en: {
+        hero_title: 'Welcome to Onsite Audit Assessment',
+        hero_desc: 'The Announcement Widget can take center stage on the home screen to instantly relay important messages, updates, or promotions. It can offer a seamless way to communicate critical information, such as application updates and other time-sensitive information.',
+        hero_cta: 'Configure the Announcements widget',
+        form_title: 'Sign In',
+        form_subtitle: 'Enter your account and password to continue',
+        label_account: 'Account',
+        label_password: 'Password',
+        ph_account: 'Enter your account',
+        ph_password: 'Enter your password',
+        remember: 'Save password',
+        forgot: 'Forgot password?',
+        btn_login: 'Sign In',
+        ws_title: 'Workspace',
+        ws_prefix: 'Welcome back, ',
+        ws_suffix: ' · Start your search and create',
+        search_hint: 'Previously entered names are saved as a history dropdown, click to reuse',
+        create_hint: 'Click the button below to create a new entry directly',
+        btn_create: 'Create',
+        back: 'Back',
+        create_title: 'Create',
+        create_subtitle: 'Fill in the following information to create a new entry',
+        cancel: 'Cancel',
+        ph_supplier: 'e.g. Shanghai Precision Mfg. Co., Ltd.',
+        ph_bp: 'e.g. BP-100245',
+        ph_contact: 'e.g. Zhang Wei',
+        ph_email: 'e.g. contact@example.com',
+        ph_commodity: 'e.g. Electronic Components',
+        ph_audit: 'e.g. AF-2026-0001',
+        ph_search: 'Enter keywords to search (CN / EN supported)',
+        empty_history: 'No history yet',
+        empty_account: 'No saved accounts',
+        toast_account_required: 'Please enter your account',
+        toast_password_required: 'Please enter your password',
+        toast_login_success: 'Signed in successfully!',
+        toast_search_empty: 'Please enter a search keyword',
+        toast_search_by: 'Search by {type}: {val}',
+        toast_create_success: 'Created successfully!',
+        pw_show: 'Show password',
+        pw_hide: 'Hide password',
+        btn_create_account: 'Create Account',
+        reg_title: 'Create Account',
+        reg_subtitle: 'Fill in the details to create a new account',
+        reg_form_title: 'Register a new account',
+        reg_form_subtitle: 'Your account info is stored on this device',
+        reg_label_account: 'Account',
+        reg_label_email: 'Email',
+        reg_label_password: 'Password',
+        reg_label_confirm: 'Confirm Password',
+        ph_reg_account: 'Enter account (min 3 characters)',
+        ph_reg_email: 'Enter your email',
+        ph_reg_password: 'Enter password (min 6 characters)',
+        ph_reg_confirm: 'Re-enter your password',
+        btn_register: 'Register',
+        reg_note: 'Demo only: account & password are stored locally in your browser and never sent to a server.',
+        reg_err_account_required: 'Please enter an account',
+        reg_err_account_length: 'Account must be at least 3 characters',
+        reg_err_account_format: 'Account can only contain letters, digits, _ @ .',
+        reg_err_account_exists: 'This account is already registered',
+        reg_err_email_required: 'Please enter an email',
+        reg_err_email_format: 'Invalid email format',
+        reg_err_password_required: 'Please enter a password',
+        reg_err_password_length: 'Password must be at least 6 characters',
+        reg_err_confirm_required: 'Please confirm your password',
+        reg_err_confirm_match: 'Passwords do not match',
+        toast_register_success: 'Registered! Please sign in',
+        toast_login_wrong_password: 'Incorrect password'
+    }
+};
+
+function applyLang(lang) {
+    lang = lang === 'en' ? 'en' : 'zh';
+    document.body.setAttribute('data-lang', lang);
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (I18N[lang][key] != null) el.textContent = I18N[lang][key];
+    });
+
+    document.querySelectorAll('[data-i18n-ph]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (I18N[lang][key] != null) el.setAttribute('placeholder', I18N[lang][key]);
+    });
+
+    document.querySelectorAll('.lang-opt').forEach((b) => {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+
+    localStorage.setItem('lang', lang);
+    document.dispatchEvent(new CustomEvent('langchanged', { detail: { lang } }));
+}
+
+function initLang() {
+    const lang = localStorage.getItem('lang') || 'zh';
+    applyLang(lang);
+    const switchEl = document.getElementById('langSwitch');
+    if (switchEl) {
+        switchEl.addEventListener('click', (e) => {
+            const btn = e.target.closest('.lang-opt');
+            if (!btn) return;
+            applyLang(btn.getAttribute('data-lang'));
+        });
+    }
+}
+
+function getLang() {
+    return document.body.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
+}
+
+function t(key, vars) {
+    let str = I18N[getLang()][key];
+    if (str == null) str = key;
+    if (vars) {
+        Object.keys(vars).forEach((k) => {
+            str = str.split('{' + k + '}').join(vars[k]);
+        });
+    }
+    return str;
+}
+
+initLang();
+
+</script>
+    <script>
+/* === inlined: search.js === */
+(function () {
+    'use strict';
+
+    const ACCOUNT_KEY = 'last_account';
+
+    const toast = document.getElementById('toast');
+    const welcomeText = document.getElementById('welcomeText');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const searchBtn = document.getElementById('searchBtn');
+    const createBtn = document.getElementById('createBtn');
+
+    const typeTrigger = document.getElementById('typeTrigger');
+    const typeCurrent = document.getElementById('typeCurrent');
+    const typeMenu = document.getElementById('typeMenu');
+    const searchInput = document.getElementById('searchInput');
+
+    // 显示欢迎词（取已保存的账号，跟随语言切换）
+    function updateWelcome() {
+        const savedAccount = localStorage.getItem(ACCOUNT_KEY);
+        if (!welcomeText) return;
+        welcomeText.textContent = savedAccount
+            ? (t('ws_prefix') + savedAccount + t('ws_suffix'))
+            : (t('ws_prefix') + t('ws_suffix'));
+    }
+    updateWelcome();
+
+    function showToast(message, type = '') {
+        toast.textContent = message;
+        toast.className = 'toast' + (type ? ' ' + type : '');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2600);
+    }
+
+    /**
+     * 为一个输入框 + 下拉框创建历史记录管理
+     */
+    function createHistoryField(options) {
+        const {
+            input,
+            dropdown,
+            toggle,
+            storageKey,
+            onCommit
+        } = options;
+
+        let history = [];
+        let activeIndex = -1;
+
+        function load() {
+            try {
+                const raw = localStorage.getItem(storageKey);
+                history = raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                history = [];
+            }
+        }
+
+        function save() {
+            localStorage.setItem(storageKey, JSON.stringify(history));
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function render(filterText) {
+            const term = filterText.toLowerCase().trim();
+            const filtered = history.filter(item => item.toLowerCase().includes(term));
+
+            dropdown.innerHTML = '';
+
+            if (filtered.length === 0) {
+                dropdown.innerHTML = '<li class="empty-history">' + t('empty_history') + '</li>';
+                return;
+            }
+
+            filtered.forEach((item) => {
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.setAttribute('role', 'option');
+                li.innerHTML = `
+                    <span class="history-account">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        ${escapeHtml(item)}
+                    </span>
+                    <button type="button" class="delete-history" title="删除该记录" aria-label="删除 ${escapeHtml(item)}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
+                `;
+                dropdown.appendChild(li);
+            });
+        }
+
+        function open() {
+            render(input.value);
+            dropdown.classList.add('show');
+        }
+
+        function close() {
+            setTimeout(() => {
+                dropdown.classList.remove('show');
+                activeIndex = -1;
+            }, 150);
+        }
+
+        function highlight(items) {
+            items.forEach((item, idx) => {
+                item.classList.toggle('active', idx === activeIndex);
+            });
+        }
+
+        function commit(value) {
+            value = value.trim();
+            if (!value) return;
+            const idx = history.indexOf(value);
+            if (idx >= 0) history.splice(idx, 1);
+            history.unshift(value);
+            history = history.slice(0, 10);
+            save();
+            if (typeof onCommit === 'function') onCommit(value);
+        }
+
+        function remove(value) {
+            history = history.filter(item => item !== value);
+            save();
+            render(input.value);
+            if (history.length === 0) close();
+        }
+
+        // 事件
+        input.addEventListener('focus', open);
+        input.addEventListener('input', open);
+        input.addEventListener('blur', close);
+
+        input.addEventListener('keydown', (e) => {
+            if (!dropdown.classList.contains('show')) return;
+            const items = dropdown.querySelectorAll('.history-item');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                activeIndex = (activeIndex + 1) % items.length;
+                highlight(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                activeIndex = (activeIndex - 1 + items.length) % items.length;
+                highlight(items);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (activeIndex >= 0 && items[activeIndex]) {
+                    const val = items[activeIndex].querySelector('.history-account').textContent.trim();
+                    input.value = val;
+                    commit(val);
+                    dropdown.classList.remove('show');
+                } else {
+                    commit(input.value);
+                    dropdown.classList.remove('show');
+                }
+            } else if (e.key === 'Escape') {
+                dropdown.classList.remove('show');
+                activeIndex = -1;
+            }
+        });
+
+        dropdown.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            const item = e.target.closest('.history-item');
+            if (!item) return;
+            const accountSpan = item.querySelector('.history-account');
+            const value = accountSpan.textContent.trim();
+            if (e.target.closest('.delete-history')) {
+                remove(value);
+                return;
+            }
+            input.value = value;
+            commit(value);
+            dropdown.classList.remove('show');
+        });
+
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                dropdown.classList.toggle('show');
+                if (dropdown.classList.contains('show')) render(input.value);
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !dropdown.contains(e.target) && (!toggle || !toggle.contains(e.target))) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        load();
+        return { commit, open, close };
+    }
+
+    /* ===== 搜索类型选择 ===== */
+    const TYPE_KEY = 'search_type';
+    let currentType = localStorage.getItem(TYPE_KEY) || 'supplier';
+
+    function syncTypeUI() {
+        const option = typeMenu.querySelector('.type-option[data-value="' + currentType + '"]');
+        if (option) {
+            const cls = getLang() === 'en' ? '.type-en' : '.type-cn';
+            typeCurrent.textContent = option.querySelector(cls).textContent;
+            typeMenu.querySelectorAll('.type-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.value === currentType);
+            });
+        }
+    }
+
+    function openTypeMenu() {
+        typeMenu.classList.add('show');
+        typeTrigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeTypeMenu() {
+        typeMenu.classList.remove('show');
+        typeTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    typeTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeMenu.classList.contains('show')) {
+            closeTypeMenu();
+        } else {
+            openTypeMenu();
+        }
+    });
+
+    typeMenu.addEventListener('click', (e) => {
+        const option = e.target.closest('.type-option');
+        if (!option) return;
+        currentType = option.dataset.value;
+        localStorage.setItem(TYPE_KEY, currentType);
+        syncTypeUI();
+        closeTypeMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!typeTrigger.contains(e.target) && !typeMenu.contains(e.target)) {
+            closeTypeMenu();
+        }
+    });
+
+    syncTypeUI();
+    document.addEventListener('langchanged', () => {
+        updateWelcome();
+        syncTypeUI();
+    });
+
+    const searchField = createHistoryField({
+        input: document.getElementById('searchInput'),
+        dropdown: document.getElementById('searchDropdown'),
+        toggle: document.getElementById('searchToggle'),
+        storageKey: 'search_history'
+    });
+
+    searchBtn.addEventListener('click', () => {
+        const val = searchInput.value.trim();
+        if (!val) {
+            showToast(t('toast_search_empty'), 'error');
+            searchInput.focus();
+            return;
+        }
+        searchField.commit(val);
+        showToast(t('toast_search_by', { type: typeCurrent.textContent, val }), 'success');
+    });
+
+    createBtn.addEventListener('click', () => {
+        window.location.href = 'create.html';
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+})();
+
+</script>
+</body>
+</html>
